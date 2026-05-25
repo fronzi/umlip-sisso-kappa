@@ -1,0 +1,90 @@
+# Setonix (Pawsey) configuration.
+#
+# Before first use, replace pawsey0328 and fronzi below with the actual values
+# OR set PAWSEY_PROJECT and USER env vars and let your shell substitute them
+# via `envsubst < configs/setonix.yaml.tmpl > configs/setonix.yaml` upstream.
+
+paths:
+  root: "."
+  data_dir: "data"
+  output_dir: "/scratch/pawsey0328/fronzi/umlip-kappa/outputs_pilot"
+  figures_dir: "/scratch/pawsey0328/fronzi/umlip-kappa/figs_pilot"
+  benchmark_csv: "data/benchmark.csv"
+  benchmark_seed_csv: "data/benchmark_seed_pilot.csv"
+
+dataset:
+  kappa_min: 0.1
+  kappa_max: 2000.0
+  max_atoms_primitive: 40
+  train_frac: 0.80
+  random_seed: 20260522
+
+umlips:
+  enabled: [mace-mp-0]
+  mace-mp-0:
+    size: "medium"
+    device: "cuda"          # ROCm exposes AMD GPUs through the torch.cuda API
+    default_dtype: "float64"
+
+relaxation:
+  fmax: 1.0e-3
+  smax: 1.0e-3
+  steps_max: 500
+  filter: FrechetCellFilter
+  optimiser: LBFGS
+
+eos:
+  n_volumes: 7
+  strain_range: 0.05
+
+elastic:
+  delta: 0.005
+  method: energy
+
+phonons:
+  supercell: [2, 2, 2]
+  n_min_atoms_supercell: 64
+  q_mesh: [21, 21, 21]
+  asr: true
+  symmetrise: true
+  displacement: 0.01
+
+qha:
+  n_volumes: 5
+  strain_range: 0.05
+  T_ref: 300.0
+
+sigma_a:
+  T_md: 300.0
+  dt_fs: 2.0
+  n_steps_equilibration: 2500       # 5 ps
+  n_steps_production:   12500       # 25 ps
+  thermostat: Langevin
+  friction_fs: 0.01
+  sample_every: 5
+
+sr:
+  backend: pysr
+  target: log10_kappa
+  max_complexity: 3
+  unary_operators: [sqrt, log, exp, square, cube, neg]
+  binary_operators: ["+", "-", "*", "/"]
+  pysr:
+    populations: 40
+    niterations: 100
+    population_size: 50
+    parsimony: 1.0e-3
+    model_selection: best
+  sisso:
+    desc_dim: 3
+    rung: 2
+    n_top: 100
+
+validation:
+  cv_folds: 3
+  cv_stratify_by: log10_kappa
+  test_frac: 0.20
+  dft_reference_subset_csv: data/dft_reference_subset.csv
+
+slack:
+  prefactor_A: 3.04e-6

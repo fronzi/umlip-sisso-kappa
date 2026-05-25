@@ -1,0 +1,105 @@
+# ===================================================================
+# Master configuration. All scripts read this file via --config <path>.
+# Values were chosen to match the publication; comment in/out as needed.
+# ===================================================================
+
+paths:
+  root: "."
+  data_dir: "data"
+  output_dir: "outputs"
+  figures_dir: "figs"
+  benchmark_csv: "data/benchmark.csv"
+  benchmark_seed_csv: "data/benchmark_seed.csv"
+
+dataset:
+  # Reference κ_L (W/m/K) bounds: insulators/semiconductors only.
+  kappa_min: 0.1
+  kappa_max: 2000.0
+  # Exclude materials whose primitive cell exceeds this; phonons get too expensive.
+  max_atoms_primitive: 40
+  # Decile-stratified split of log10(kappa).
+  train_frac: 0.80
+  random_seed: 20260522
+
+umlips:
+  enabled:
+    - mace-mp-0
+    - orb-v3
+    - mattersim-v1
+  # Per-uMLIP options. None of these models exist in this dict by default;
+  # downstream code uses sensible defaults if a key is missing.
+  mace-mp-0:
+    size: "medium"          # one of {"small","medium","large"}
+    device: "cuda"
+    dtype: "float64"        # phonons need float64
+    default_dtype: "float64"
+  orb-v3:
+    name: "orb-v3-conservative-inf-omat"
+    device: "cuda"
+  mattersim-v1:
+    checkpoint: "mattersim-v1.0.0-5M"
+    device: "cuda"
+
+relaxation:
+  fmax: 1.0e-3              # eV/Å
+  smax: 1.0e-3              # eV/Å³ (≈10 MPa)
+  steps_max: 500
+  filter: "FrechetCellFilter"
+  optimiser: "LBFGS"
+
+eos:
+  n_volumes: 7
+  strain_range: 0.05        # ±5 %
+
+elastic:
+  delta: 0.005              # 0.5 % deformation magnitude
+  method: "energy"          # "energy" (Hessian fit) or "stress"
+
+phonons:
+  supercell: [2, 2, 2]      # automatically expanded to satisfy n_min_atoms
+  n_min_atoms_supercell: 64
+  q_mesh: [21, 21, 21]
+  asr: true
+  symmetrise: true
+  displacement: 0.01        # Å
+
+qha:
+  n_volumes: 5
+  strain_range: 0.05
+  # Heat-capacity weighting reference temperature for γ_G
+  T_ref: 300.0
+
+sigma_a:
+  T_md: 300.0
+  dt_fs: 2.0
+  n_steps_equilibration: 2500   # = 5 ps
+  n_steps_production: 12500     # = 25 ps
+  thermostat: "Langevin"
+  friction_fs: 0.01
+  sample_every: 5
+
+sr:
+  backend: "pysr"           # "pysr" or "sisso"
+  target: "log10_kappa"
+  max_complexity: 3
+  unary_operators: ["sqrt", "log", "exp", "square", "cube", "neg"]
+  binary_operators: ["+", "-", "*", "/"]
+  pysr:
+    populations: 40
+    niterations: 100
+    population_size: 50
+    parsimony: 1.0e-3
+    model_selection: "best"
+  sisso:
+    desc_dim: 3
+    rung: 2
+    n_top: 100
+
+validation:
+  cv_folds: 5
+  cv_stratify_by: "log10_kappa"
+  test_frac: 0.20
+  dft_reference_subset_csv: "data/dft_reference_subset.csv"  # γ̄, σᴬ DFT values
+
+slack:
+  prefactor_A: 3.04e-6      # SI units (W·s³·K / kg)
