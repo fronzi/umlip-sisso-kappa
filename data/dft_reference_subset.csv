@@ -1,0 +1,9 @@
+mp_id,gamma_G_300K,sigma_A_300K,B0_GPa,theta_D_K,source
+mp-149,1.06,0.18,98.0,645.0,Knoop2020_PRM
+mp-2657,1.40,0.36,210.0,943.0,Knoop2023_PRL
+mp-1265,1.55,0.21,165.0,945.0,PoetaPota2024
+mp-19410,2.0,0.31,40.0,135.0,PoetaPota2024
+mp-22862,3.4,0.42,32.0,210.0,PoetaPota2024
+# --- Add the rest of the DFT reference subset (~30 materials) here ---
+# Each row gives DFT values for the same features that the uMLIPs predict,
+# computed at the same level of theory (PBE) used to train the uMLIPs.

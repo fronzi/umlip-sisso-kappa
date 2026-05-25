@@ -1,0 +1,6 @@
+mp_id,formula,kappa_ref,kappa_ref_uncertainty,ref_method,ref_doi
+mp-149,Si,142.0,5.0,experiment,10.1007/0-387-25100-6_2
+mp-2534,GaAs,46.0,3.0,experiment,10.1007/0-387-25100-6_2
+mp-1265,MgO,60.0,5.0,experiment,10.1007/0-387-25100-6_2
+mp-19717,PbTe,2.2,0.3,experiment,10.1038/nmat2090
+mp-1025549,Tl3VSe4,0.30,0.05,experiment,10.1126/science.aax3033

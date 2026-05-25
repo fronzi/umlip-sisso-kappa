@@ -1,0 +1,19 @@
+mp_id,formula,kappa_ref,kappa_ref_uncertainty,ref_method,ref_doi
+mp-149,Si,142.0,5.0,experiment,10.1007/0-387-25100-6_2
+mp-66,C,2200.0,100.0,experiment,10.1007/0-387-25100-6_2
+mp-2534,GaAs,46.0,3.0,experiment,10.1007/0-387-25100-6_2
+mp-1639,AlN,285.0,10.0,experiment,10.1007/0-387-25100-6_2
+mp-804,GaN,253.0,10.0,experiment,10.1007/0-387-25100-6_2
+mp-1265,MgO,60.0,5.0,experiment,10.1007/0-387-25100-6_2
+mp-2657,TiO2,8.5,1.0,experiment,10.1007/0-387-25100-6_2
+mp-19410,PbTe,2.2,0.3,experiment,10.1038/nmat2090
+mp-22862,SnSe,0.7,0.1,experiment,10.1038/nature13184
+mp-2098,Tl3VSe4,0.30,0.05,experiment,10.1126/science.aax3033
+# --- Add the rest of the ~140 materials from the cited references here ---
+# Format columns:
+#   mp_id                : Materials Project ID
+#   formula              : reduced chemical formula
+#   kappa_ref            : reference κ_L at 300 K, W/m/K
+#   kappa_ref_uncertainty: 1-σ uncertainty (W/m/K); leave blank if unknown
+#   ref_method           : 'experiment' | 'DFT-WTE' | 'DFT-BTE'
+#   ref_doi              : DOI of the source
