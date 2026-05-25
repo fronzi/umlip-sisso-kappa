@@ -1,0 +1,29 @@
+name: umlip-kappa
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy=1.26.*
+  - scipy=1.13.*
+  - pandas=2.2.*
+  - scikit-learn=1.5.*
+  - matplotlib=3.9.*
+  - seaborn=0.13.*
+  - pyyaml
+  - tqdm
+  - rich
+  - ase=3.23.*
+  - phonopy=2.26.*
+  - pymatgen=2024.*
+  - sympy
+  - jupyterlab
+  - pip:
+      - matminer==0.9.2
+      - mp-api>=0.42.0
+      - pysr==0.19.4
+      # Install one or more uMLIPs separately; they have different CUDA/torch
+      # requirements, so we leave them out of the locked env on purpose:
+      #   pip install mace-torch
+      #   pip install orb-models
+      #   pip install mattersim
